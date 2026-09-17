@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Today — Weight Loss Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <button type="button" class="nav-btn" id="prevDay" aria-label="Previous day">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="header-center">
+        <div class="header-title" id="headerTitle">Today</div>
+        <div class="header-date" id="headerDate">Wed • Sep 16</div>
+      </div>
+      <button type="button" class="nav-btn" id="nextDay" aria-label="Next day">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </header>
+
+    <!-- Weight -->
+    <section class="card" aria-label="Weight">
+      <div class="card-label">Weight</div>
+      <div class="weight-row">
+        <span class="weight-value" id="weightValue">169.7</span>
+        <span class="weight-unit">lbs</span>
+      </div>
+      <div class="chart-mini">
+        <canvas id="weightChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Macros -->
+    <section class="card" aria-label="Macros">
+      <div class="macros-top">
+        <div class="ring-wrap">
+          <canvas id="ringChart"></canvas>
+          <div class="ring-center">
+            <div class="ring-number" id="ringNumber">0</div>
+            <div class="ring-sub" id="ringSub">left</div>
+          </div>
+        </div>
+        <div class="macros-summary">
+          <div class="summary-row">
+            <div class="summary-text">
+              <span id="summaryCals">0</span>
+              <span class="muted"> / <span id="summaryCalsTarget">2,000</span></span>
+            </div>
+            <span class="pct-pill" id="summaryCalsPct">0%</span>
+          </div>
+          <div class="summary-row">
+            <div class="summary-text">
+              <span id="summaryProtein">0g</span>
+              <span class="muted"> / <span id="summaryProteinTarget">160g</span></span>
+            </div>
+            <span class="pct-pill" id="summaryProteinPct">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bars">
+        <div class="bar-block">
+          <div class="bar-meta">
+            <span class="bar-name teal">Calories</span>
+            <span class="bar-stats" id="barCalsStats">0 / 2,000 • 0%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill teal" id="barCalsFill"></div></div>
+        </div>
+        <div class="bar-block">
+          <div class="bar-meta">
+            <span class="bar-name blue">Protein</span>
+            <span class="bar-stats" id="barProteinStats">0g / 160g • 0%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill blue" id="barProteinFill"></div></div>
+        </div>
+        <div class="bar-block">
+          <div class="bar-meta">
+            <span class="bar-name purple">Fat</span>
+            <span class="bar-stats" id="barFatStats">0g</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill purple" id="barFatFill"></div></div>
+        </div>
+        <div class="bar-block">
+          <div class="bar-meta">
+            <span class="bar-name yellow">Sugar</span>
+            <span class="bar-stats" id="barSugarStats">0g</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill yellow" id="barSugarFill"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calories history -->
+    <section class="card" aria-label="Calories history">
+      <div class="hist-header">
+        <div class="card-label">Calories</div>
+        <div class="hist-value">
+          <span class="accent-teal" id="histCalsValue">0</span>
+          <span class="muted"> / <span id="histCalsTarget">2,000</span></span>
+        </div>
+      </div>
+      <div class="chart-hist">
+        <canvas id="caloriesChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Protein history -->
+    <section class="card" aria-label="Protein history">
+      <div class="hist-header">
+        <div class="card-label">Protein</div>
+        <div class="hist-value">
+          <span class="accent-blue" id="histProteinValue">0g</span>
+          <span class="muted"> / <span id="histProteinTarget">160g</span></span>
+        </div>
+      </div>
+      <div class="chart-hist">
+        <canvas id="proteinChart"></canvas>
+      </div>
+    </section>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
