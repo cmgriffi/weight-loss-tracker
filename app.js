@@ -112,9 +112,10 @@
   function buildWeightChart() {
     const ctx = document.getElementById('weightChart').getContext('2d');
     const labels = days.map((d) => formatAxisLabel(d.date));
-    const values = days.map((d) => d.weight);
-    const min = Math.min(...values) - 0.4;
-    const max = Math.max(...values) + 0.4;
+    const values = days.map((d) => (d.weight == null ? null : d.weight));
+    const known = values.filter((v) => v != null);
+    const min = known.length ? Math.min(...known) - 0.4 : 0;
+    const max = known.length ? Math.max(...known) + 0.4 : 1;
 
     weightChart = new Chart(ctx, {
       type: 'line',
@@ -131,6 +132,7 @@
           pointBackgroundColor: COLORS.teal,
           pointBorderColor: COLORS.teal,
           pointBorderWidth: 0,
+          spanGaps: true,
         }],
       },
       options: {
@@ -315,12 +317,12 @@
     el.prevDay.disabled = selectedIndex <= 0;
     el.nextDay.disabled = selectedIndex >= days.length - 1;
 
-    el.weightValue.textContent = day.weight.toFixed(1);
+    el.weightValue.textContent = day.weight == null ? '—' : day.weight.toFixed(1);
 
-    const calPct = pct(day.calories, targets.calories);
-    const proPct = pct(day.protein, targets.protein);
-    const fatPct = pct(day.fat, targets.fat);
-    const sugarPct = pct(day.sugar, targets.sugar);
+    const calPct = pct(day.calories || 0, targets.calories);
+    const proPct = pct(day.protein || 0, targets.protein);
+    const fatPct = day.fat == null ? 0 : pct(day.fat, targets.fat);
+    const sugarPct = day.sugar == null ? 0 : pct(day.sugar, targets.sugar);
     const calOver = day.calories > targets.calories;
 
     el.summaryCals.textContent = fmtNum(day.calories);
@@ -345,10 +347,10 @@
     el.barProteinStats.textContent = `${fmtNum(day.protein)}g / ${fmtNum(targets.protein)}g • ${proPct}%`;
     setBar(el.barProteinFill, proPct, false);
 
-    el.barFatStats.textContent = `${fmtNum(day.fat)}g`;
+    el.barFatStats.textContent = day.fat == null ? '—' : `${fmtNum(day.fat)}g`;
     setBar(el.barFatFill, fatPct, false);
 
-    el.barSugarStats.textContent = `${fmtNum(day.sugar)}g`;
+    el.barSugarStats.textContent = day.sugar == null ? '—' : `${fmtNum(day.sugar)}g`;
     setBar(el.barSugarFill, sugarPct, false);
 
     el.histCalsValue.textContent = fmtNum(day.calories);
